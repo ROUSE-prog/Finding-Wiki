@@ -14,7 +14,7 @@ export default function SelectCategory() {
   const router = useRouter();
 
   const handleCategorySelect = (category: string) => {
-    router.push(`/game?category=${category}`);
+    router.push(`/game?category=${category}`); // Pass category as a query parameter
   };
 
   return (
