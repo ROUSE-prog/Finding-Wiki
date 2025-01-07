@@ -1,14 +1,11 @@
 'use client';
-
 import React from 'react';
-
 interface MainContentProps {
   htmlContent: string | null;
   links: string[];
   handleLinkClick: (link: string) => void;
   error: string | null;
 }
-
 export default function MainContent({
   htmlContent,
   links,
