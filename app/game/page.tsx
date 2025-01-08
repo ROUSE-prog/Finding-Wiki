@@ -111,7 +111,7 @@ export default function Game() {
 
   return (
     <>
-<Header
+  <Header
   category={category}
   currentPage={currentPage}
   targetPage={targetPage}
@@ -120,9 +120,9 @@ export default function Game() {
   handleRestart={handleRestart}
   setCategory={setCategory}
   headings={headings}
+
   onNavigate={handleNavigationClick}
 />
-
 
 <MainContent
   htmlContent={htmlContent}
