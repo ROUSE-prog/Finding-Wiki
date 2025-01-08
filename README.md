@@ -63,13 +63,15 @@
 ## 📷 Screenshots
 
 ### Category Selection Page
-![Category Selection](./screenshots/category-selection.png)
+
+![Screenshot 2025-01-07 at 9 10 16 PM](https://github.com/user-attachments/assets/dc6a32a3-9bb5-456f-998f-8711236d6cdb)
 
 ### Game Page
-![Game Page](./screenshots/game-page.png)
+![Screenshot 2025-01-07 at 9 06 43 PM](https://github.com/user-attachments/assets/4b57cf0d-b34c-47f8-a8c2-c8a1a3f26243)
+
 
 ### Winner Page
-![Winner Page](./screenshots/winner-page.png)
+![Screenshot 2025-01-07 at 9 12 18 PM](https://github.com/user-attachments/assets/4924b0d6-efcc-4037-8cba-dec1da6c5888)
 
 ---
 
