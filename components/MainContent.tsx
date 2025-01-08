@@ -39,8 +39,8 @@ export default function MainContent({
   }, [htmlContent, setHeadings]);
 
   return (
-    <main className="max-w-screen-lg mx-auto mt-4 px-4">
-      <div className="bg-white p-6 border border-gray-300 shadow-md rounded-md">
+    <main className="max-w-screen-lg mx-auto mt-4 px-4 ">
+      <div className="p-6 border border-gray-300 shadow-lg rounded-md">
         {error ? (
           <p className="text-red-500">{error}</p>
         ) : (

@@ -25,7 +25,7 @@ export default function SelectCategory() {
           <button
             key={cat.label}
             onClick={() => handleCategorySelect(cat.wikiCategory)}
-            className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="px-6 py-3 bg-cyan-900 bg-opacity-50 text-white rounded hover:bg-cyan-700"
           >
             {cat.label}
           </button>
