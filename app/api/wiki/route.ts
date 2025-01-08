@@ -27,11 +27,12 @@ export async function GET(req: Request) {
     }
 
     if (title) {
-      // Fetch specific page content and links
+      // Fetch specific page content and links with redirect handling
       const response = await axios.get(WIKIPEDIA_API_URL, {
         params: {
           action: 'parse',
           page: title,
+          redirects: 1, // Enable redirects
           format: 'json',
           origin: '*',
         },

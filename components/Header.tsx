@@ -10,7 +10,9 @@ interface HeaderProps {
   clickCount: number;
   timer: number;
   handleRestart: () => void;
-  handleSearch: (searchTerm: string) => void;
+  setCategory: (category: string) => void;
+  headings: { id: string; text: string }[];
+  onNavigate: (id: string) => void;
 }
 
 export default function Header({
@@ -20,19 +22,14 @@ export default function Header({
   clickCount,
   timer,
   handleRestart,
-  handleSearch,
+  setCategory,
+  headings,
+  onNavigate,
 }: HeaderProps) {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
-  const handleSearchSubmit = () => {
-    handleSearch(searchTerm);
-    setIsSearchVisible(false); // Close search box after submitting
-  };
-
-  const handleSearchClose = () => {
-    setSearchTerm('');
-    setIsSearchVisible(false);
+  const handleNavigationClick = (id: string) => {
+    onNavigate(id);
   };
 
   return (
@@ -40,23 +37,19 @@ export default function Header({
       <header className="bg-gray-100 border-b border-gray-300 shadow-sm sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left Section */}
         <div className="flex items-center space-x-4">
-          {/* Home Icon */}
+          {/* Home Button */}
           <Link href="/" passHref>
             <button className="p-2 rounded hover:bg-gray-200">
               <span className="sr-only">Home</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-gray-700"
-                fill="none"
                 viewBox="0 0 24 24"
+                fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 12l9-9m0 0l9 9m-9-9v18"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9m0 0l9 9m-9-9v18" />
               </svg>
             </button>
           </Link>
@@ -73,57 +66,6 @@ export default function Header({
 
         {/* Right Section */}
         <div className="flex items-center space-x-4 relative">
-          {/* Magnifying Glass Icon */}
-          <button
-            onClick={() => setIsSearchVisible(true)}
-            className="p-2 rounded hover:bg-gray-200"
-          >
-            <span className="sr-only">Search</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-700"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </button>
-
-          {/* Search Box */}
-          {isSearchVisible && (
-            <div className="absolute top-10 right-0 bg-white shadow-md p-2 rounded flex items-center space-x-2">
-              <input
-                type="text"
-                placeholder="Find in article"
-                className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button
-                onClick={handleSearchSubmit}
-                className="px-2 py-1 bg-blue-500 text-white rounded-md text-xs hover:bg-blue-600"
-              >
-                Find
-              </button>
-              <button
-                onClick={handleSearchClose}
-                className="px-2 py-1 bg-gray-300 text-gray-700 rounded-md text-xs hover:bg-gray-400"
-              >
-                Close
-              </button>
-            </div>
-          )}
-
-          {/* Category Button */}
-          <Link href="/select-category" passHref>
-            <button className="px-4 py-2 bg-stone-300 text-black text-sm rounded hover:bg-stone-400">
-              Category
-            </button>
-          </Link>
-
           {/* Reset Button */}
           <button
             onClick={handleRestart}
@@ -131,13 +73,59 @@ export default function Header({
           >
             Reset Game
           </button>
+
+          {/* Category Button */}
+          <button
+            onClick={() => setCategory('')}
+            className="px-4 py-2 bg-stone-300 text-black text-sm rounded hover:bg-stone-400"
+          >
+            Category
+          </button>
+
+          {/* Navigation Toggle */}
+          <button onClick={() => setIsNavOpen(!isNavOpen)} className="p-2 rounded hover:bg-gray-200">
+            <span className="sr-only">Toggle Navigation</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 text-gray-700"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12H8m0 6h8" />
+            </svg>
+          </button>
         </div>
       </header>
 
-      {/* Current Page Title */}
-      <div className="bg-gray-50 text-gray-700 text-center py-2 sticky top-[30px] z-40 shadow-sm border-b border-gray-300">
-        <h2 className="text-md sm:text-lg font-semibold">Current Page: {currentPage}</h2>
+      {/* Current Page Container */}
+      <div className="bg-gray-50 text-gray-700 text-center py-2 sticky top-[35px] z-40 shadow-sm border-b border-gray-300">
+        <h2 className="text-md sm:text-lg font-semibold">
+          Current Page: {decodeURIComponent(currentPage).replace(/_/g, ' ')}
+        </h2>
       </div>
+
+      {/* Navigation Drawer */}
+      {isNavOpen && (
+        <aside className="fixed top-16 left-0 z-40 w-64 h-full bg-gray-50 border-r border-gray-300 shadow-md overflow-y-auto">
+          <div className="p-4">
+            <h2 className="text-lg font-semibold mb-4">Navigation</h2>
+            <ul className="space-y-2">
+              {headings.map((heading) => (
+                <li key={heading.id}>
+                  <button
+                    onClick={() => handleNavigationClick(heading.id)}
+                    className="text-blue-500 hover:underline"
+                  >
+                    {heading.text}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      )}
     </>
   );
 }

@@ -1,17 +1,43 @@
 'use client';
-import React from 'react';
+
+import React, { useEffect } from 'react';
+
 interface MainContentProps {
   htmlContent: string | null;
-  links: string[];
   handleLinkClick: (link: string) => void;
+  setHeadings: (headings: { id: string; text: string }[]) => void;
   error: string | null;
 }
+
 export default function MainContent({
   htmlContent,
-  links,
   handleLinkClick,
+  setHeadings,
   error,
 }: MainContentProps) {
+  useEffect(() => {
+    // Remove title attributes to suppress tooltips
+    const elementsWithTitle = document.querySelectorAll('[title]');
+    elementsWithTitle.forEach((element) => {
+      element.removeAttribute('title');
+    });
+  }, [htmlContent]);
+
+  useEffect(() => {
+    if (!htmlContent) return;
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+
+    const extractedHeadings = Array.from(tempDiv.querySelectorAll('h2, h3')).map((heading, index) => {
+      const id = `heading-${index}`;
+      heading.id = id; // Assign unique IDs for scrolling
+      return { id, text: heading.textContent || '' };
+    });
+
+    setHeadings(extractedHeadings); // Share headings with parent
+  }, [htmlContent, setHeadings]);
+
   return (
     <main className="max-w-screen-lg mx-auto mt-4 px-4">
       <div className="bg-white p-6 border border-gray-300 shadow-md rounded-md">
@@ -33,25 +59,6 @@ export default function MainContent({
               }
             }}
           />
-        )}
-      </div>
-      <div className="mt-4">
-        <h2 className="text-xl font-semibold mb-2">Links:</h2>
-        {links.length > 0 ? (
-          <ul>
-            {links.map((link, index) => (
-              <li key={index}>
-                <button
-                  onClick={() => handleLinkClick(link)}
-                  className="text-blue-500 underline hover:text-blue-700"
-                >
-                  {link}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No links available.</p>
         )}
       </div>
     </main>
