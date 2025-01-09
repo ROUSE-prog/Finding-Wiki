@@ -10,6 +10,7 @@ export const POPULAR_ARTICLES = {
       "Ecology",
       "Climate change",
       "Artificial intelligence",
+      "Time_travel",
       // Add 40 more popular Science articles
     ],
     History: [
@@ -23,6 +24,7 @@ export const POPULAR_ARTICLES = {
       "Civil Rights Movement",
       "Crusades",
       "Renaissance",
+      "Philadelphia",
       // Add 40 more popular History articles
     ],
     Technology: [
